@@ -14,7 +14,7 @@ public class Card {
     private BufferedImage image;
     private Rectangle cardBox;
     private boolean highlight;
-    private static ArrayList<Card> deck = Card.buildDeck();
+    private static ArrayList<Card> deck = buildDeck();
 
     public Card(String suit, String value) {
         this.suit = suit;
@@ -37,6 +37,10 @@ public class Card {
 
     public String getSuit() {
         return suit;
+    }
+
+    public static int getDeckAmount() {
+        return deck.size();
     }
 
     public void setRectangleLocation(int x, int y) {
@@ -100,6 +104,10 @@ public class Card {
             System.out.println(e);
             return null;
         }
+    }
+
+    public static void updateDeck() {
+        deck = buildDeck();
     }
 
     public static ArrayList<Card> buildDeck() {

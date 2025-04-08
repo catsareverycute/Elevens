@@ -13,9 +13,11 @@ class DrawPanel extends JPanel implements MouseListener {
 
     // Rectangle object represents ....... a rectangle.
     private Rectangle button;
+    private Rectangle button1;
 
     public DrawPanel() {
         button = new Rectangle(167, 300, 160, 26);
+        button1 = new Rectangle(360, 10, 160, 26);
         this.addMouseListener(this);
         hand = Card.buildHand();
     }
@@ -45,8 +47,15 @@ class DrawPanel extends JPanel implements MouseListener {
         // drawing the bottom button
         // with my favorite font (not comic sans)
         g.setFont(new Font("Courier New", Font.BOLD, 20));
-        g.drawString("GET NEW CARDS", 170, 320);
+        g.drawString("PLAY AGAIN", 180, 320);
         g.drawRect((int)button.getX(), (int)button.getY(), (int)button.getWidth(), (int)button.getHeight());
+        g.drawString("REPLACE CARDS", 363, 30);
+        g.drawRect((int)button1.getX(), (int)button1.getY(), (int)button1.getWidth(), (int)button1.getHeight());
+        g.drawString("Cards left: " + Card.getDeckAmount(), 0, 525);
+        if (Card.getDeckAmount() == 0){
+            g.drawString("YOU WIN",200,400);
+        }
+        // add logic to check if anything can = 11
     }
 
     public void mousePressed(MouseEvent e) {
@@ -58,7 +67,23 @@ class DrawPanel extends JPanel implements MouseListener {
             // if "clicked" is inside the button rectangle
             // aka --> did you click the button?
             if (button.contains(clicked)) {
+                Card.updateDeck();
+                System.out.println(Card.getDeckAmount());
                 hand = Card.buildHand();
+            }
+
+            if (button1.contains(clicked)) {
+                for (int i = 0; i < hand.size(); i++) {
+                    Rectangle box = hand.get(i).getCardBox();
+                    if (box.contains(clicked)) {
+                        if (hand.get(i).getHighlight()) {
+                            // + = 11 or j/q/k
+                        }
+                        else {
+                            hand.get(i).flipHighlight();
+                        }
+                    }
+                }
             }
 
             // go through each card
