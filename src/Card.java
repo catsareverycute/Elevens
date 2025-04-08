@@ -14,7 +14,7 @@ public class Card {
     private BufferedImage image;
     private Rectangle cardBox;
     private boolean highlight;
-    private static int[] test;
+    private static ArrayList<Card> deck = Card.buildDeck();
 
     public Card(String suit, String value) {
         this.suit = suit;
@@ -55,22 +55,22 @@ public class Card {
         return suit + " " + value;
     }
 
-    public int[] getTest() { return test; }
-
     public void flipCard() {
         show = !show;
         this.image = readImage();
     }
 
-    public void flipHighlight(int i) {
+    public void flipHighlight() {
         highlight = !highlight;
-        test[i]++;
     }
 
     public void replaceCard() {
-        ArrayList<Card> deck = Card.buildDeck();
         int r = (int)(Math.random()*deck.size());
         Card c = deck.remove(r);
+        this.suit = c.suit;
+        this.value = c.value;
+        this.imageFileName = c.imageFileName;
+        this.image = c.readImage();
     }
 
     public boolean getHighlight() {
@@ -123,7 +123,6 @@ public class Card {
             Card c = deck.remove(r);
             hand.add(c);
         }
-        test = new int[hand.size()];
         return hand;
     }
 }

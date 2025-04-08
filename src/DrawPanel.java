@@ -76,9 +76,12 @@ class DrawPanel extends JPanel implements MouseListener {
             for (int i = 0; i < hand.size(); i++) {
                 Rectangle box = hand.get(i).getCardBox();
                 if (box.contains(clicked)) {
-                    hand.get(i).flipHighlight(i);
-                    if (hand.get(i).getTest()[i]% 2 ==0){
+                    if (hand.get(i).getHighlight()) {
                         hand.get(i).replaceCard();
+                        hand.get(i).flipHighlight();
+                    }
+                    else {
+                        hand.get(i).flipHighlight();
                     }
                 }
             }
