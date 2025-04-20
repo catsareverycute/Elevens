@@ -7,16 +7,15 @@ import java.awt.Rectangle;
 
 public class Card {
     private String suit;
-    private String value;
+    private int value;
     private String imageFileName;
     private String backImageFileName;
     private boolean show;
     private BufferedImage image;
     private Rectangle cardBox;
     private boolean highlight;
-    private static ArrayList<Card> deck = buildDeck();
 
-    public Card(String suit, String value) {
+    public Card(String suit, int value) {
         this.suit = suit;
         this.value = value;
         this.imageFileName = "images/card_"+suit+"_"+value+".png";
@@ -39,15 +38,11 @@ public class Card {
         return suit;
     }
 
-    public static int getDeckAmount() {
-        return deck.size();
-    }
-
     public void setRectangleLocation(int x, int y) {
         cardBox.setLocation(x, y);
     }
 
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
@@ -68,7 +63,7 @@ public class Card {
         highlight = !highlight;
     }
 
-    public void replaceCard() {
+    public void replaceCard(ArrayList<Card> deck) {
         int r = (int)(Math.random()*deck.size());
         Card c = deck.remove(r);
         this.suit = c.suit;
@@ -106,16 +101,12 @@ public class Card {
         }
     }
 
-    public static void updateDeck() {
-        deck = buildDeck();
-    }
-
     public static ArrayList<Card> buildDeck() {
         ArrayList<Card> deck = new ArrayList<Card>();
         String[] suits = {"clubs", "diamonds", "hearts", "spades"};
-        String[] values = {"02", "03", "04", "05", "06", "07", "08", "09", "10", "A", "J", "K", "Q"};
+        int[] values = {2,3,4,5,6,7,8,9,10,1,11,13,12};
         for (String s : suits) {
-            for (String v : values) {
+            for (int v : values) {
                 Card c = new Card(s, v);
                 deck.add(c);
             }
@@ -123,8 +114,7 @@ public class Card {
         return deck;
     }
 
-    public static ArrayList<Card> buildHand() {
-        ArrayList<Card> deck = Card.buildDeck();
+    public static ArrayList<Card> buildHand(ArrayList<Card> deck) {
         ArrayList<Card> hand = new ArrayList<Card>();
         for (int i = 0; i < 9; i++) {
             int r = (int)(Math.random()*deck.size());
@@ -132,5 +122,11 @@ public class Card {
             hand.add(c);
         }
         return hand;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        Card card = (Card) obj;
+        return value == card.value && suit.equals(card.suit);
     }
 }
